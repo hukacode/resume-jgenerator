@@ -23,26 +23,17 @@
 package dev.huka.resumejgenerator.port.in;
 
 import dev.huka.resumejgenerator.common.Operator;
-import dev.huka.resumejgenerator.domain.Resume;
-import java.io.File;
-import java.util.List;
+import dev.huka.resumejgenerator.common.Output;
 import lombok.Builder;
 import lombok.Data;
 
 public interface ResumeGeneratorCommand
-    extends Operator<
-        ResumeGeneratorCommand.ResumeGeneratorInput, ResumeGeneratorCommand.ResumeGeneratorOutput> {
+    extends Operator<ResumeGeneratorCommand.ResumeGeneratorInput, Output> {
   @Data
   @Builder
   class ResumeGeneratorInput {
-    private Resume resume;
+    private String theme;
     private boolean isGeneratePDF;
     private boolean isGenerateHTML;
-  }
-
-  @Data
-  @Builder
-  class ResumeGeneratorOutput {
-    private List<File> fileList;
   }
 }

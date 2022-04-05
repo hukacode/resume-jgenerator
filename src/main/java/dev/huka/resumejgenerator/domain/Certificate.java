@@ -22,7 +22,6 @@
  */
 package dev.huka.resumejgenerator.domain;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data

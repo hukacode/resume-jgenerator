@@ -20,21 +20,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package dev.huka.resumejgenerator.domain;
+package dev.huka.resumejgenerator.config;
 
-import java.util.ArrayList;
-import lombok.Data;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.FileTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
-@Data
-public class Project {
-  private String name;
-  private String description;
-  private ArrayList<String> highlights;
-  private ArrayList<String> keywords;
-  private String startDate;
-  private String endDate;
-  private String url;
-  private ArrayList<String> roles;
-  private String entity;
-  private String type;
+@Configuration
+public class ThymeleafConfig {
+  @Bean
+  public TemplateEngine springTemplateEngine() {
+    var templateEngine = new SpringTemplateEngine();
+    templateEngine.addTemplateResolver(htmlTemplateResolver());
+    return templateEngine;
+  }
+
+  private ITemplateResolver htmlTemplateResolver() {
+    var templateResolver = new FileTemplateResolver();
+    templateResolver.setTemplateMode(TemplateMode.HTML);
+    templateResolver.setPrefix(System.getProperty("user.dir") + "/themes/");
+    templateResolver.setSuffix(".html");
+    templateResolver.setCharacterEncoding("UTF-8");
+    templateResolver.setCacheable(false);
+    return templateResolver;
+  }
 }

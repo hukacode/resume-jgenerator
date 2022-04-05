@@ -40,7 +40,13 @@ public class ResumeJGeneratorApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    var resumeGeneratorInput = ResumeGeneratorCommand.ResumeGeneratorInput.builder().build();
+    var resumeGeneratorInput =
+        ResumeGeneratorCommand.ResumeGeneratorInput.builder()
+            .isGenerateHTML(true)
+            .isGeneratePDF(true)
+            .theme("caffeine")
+            .build();
     resumeGeneratorCommand.execute(resumeGeneratorInput);
+    log.info("Done");
   }
 }

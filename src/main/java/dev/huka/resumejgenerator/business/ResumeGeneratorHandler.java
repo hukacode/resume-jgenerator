@@ -22,25 +22,51 @@
  */
 package dev.huka.resumejgenerator.business;
 
+import dev.huka.resumejgenerator.common.Output;
 import dev.huka.resumejgenerator.port.in.ResumeGeneratorCommand;
 import dev.huka.resumejgenerator.port.out.ResumeProvider;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Locale;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileSystemUtils;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
 @AllArgsConstructor
 @Slf4j
 public class ResumeGeneratorHandler implements ResumeGeneratorCommand {
   private ResumeProvider resumeProvider;
+  private TemplateEngine springTemplateEngine;
 
   @Override
-  public ResumeGeneratorOutput execute(ResumeGeneratorInput input) {
+  public Output execute(ResumeGeneratorInput input) {
     var resume = resumeProvider.readResume();
 
-    log.info(resume.toString());
+    var ctx = new Context(Locale.US);
+    ctx.setVariable("resume", resume);
 
-    var resumeGeneratorOutput = ResumeGeneratorOutput.builder().build();
-    return resumeGeneratorOutput;
+    var htmlContent = this.springTemplateEngine.process(input.getTheme() + "/index.html", ctx);
+    if (input.isGenerateHTML()) {
+      try {
+        var outputPath = Path.of("output");
+        var sourcePath = Path.of("themes", input.getTheme());
+        FileSystemUtils.copyRecursively(outputPath, sourcePath);
+        Files.writeString(
+            Path.of("output", "index.html"),
+            htmlContent,
+            StandardOpenOption.CREATE,
+            StandardOpenOption.TRUNCATE_EXISTING);
+        log.info("Create HTML file");
+      } catch (IOException e) {
+        log.warn("Error occurred: " + e.getMessage(), e);
+      }
+    }
+    return Output.NOTHING;
   }
 }

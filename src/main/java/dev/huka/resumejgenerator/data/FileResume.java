@@ -41,7 +41,8 @@ public class FileResume implements ResumeProvider {
     var resumeJson = "resume.json";
     try {
       return objectMapper.readValue(
-          new File(Path.of(System.getProperty("user.dir"), resumeJson).toAbsolutePath().toString()), Resume.class);
+          new File(Path.of(System.getProperty("user.dir"), resumeJson).toAbsolutePath().toString()),
+          Resume.class);
     } catch (IOException e) {
       throw new RuntimeException(e.getMessage());
     }

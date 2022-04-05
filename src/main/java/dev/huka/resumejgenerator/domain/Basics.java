@@ -23,7 +23,6 @@
 package dev.huka.resumejgenerator.domain;
 
 import java.util.ArrayList;
-import lombok.Builder;
 import lombok.Data;
 
 @Data
