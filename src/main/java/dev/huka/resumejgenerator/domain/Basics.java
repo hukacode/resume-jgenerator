@@ -29,7 +29,7 @@ import lombok.Data;
 public class Basics {
   private String name;
   private String label;
-  private String image;
+  private String picture;
   private String email;
   private String phone;
   private String website;

@@ -29,7 +29,7 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
   implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.2'
-  implementation 'org.jsoup:jsoup:1.14.3'
+  implementation 'com.itextpdf:html2pdf:4.0.1'
 }
 
 pmd {

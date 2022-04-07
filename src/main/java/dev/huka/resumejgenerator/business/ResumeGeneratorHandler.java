@@ -22,51 +22,71 @@
  */
 package dev.huka.resumejgenerator.business;
 
-import dev.huka.resumejgenerator.common.Output;
-import dev.huka.resumejgenerator.port.in.ResumeGeneratorCommand;
-import dev.huka.resumejgenerator.port.out.ResumeProvider;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.Locale;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import com.itextpdf.html2pdf.ConverterProperties;
+import com.itextpdf.html2pdf.HtmlConverter;
+
+import dev.huka.resumejgenerator.common.Output;
+import dev.huka.resumejgenerator.port.in.ResumeGeneratorCommand;
+import dev.huka.resumejgenerator.port.out.ResumeProvider;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+
 @Service
 @AllArgsConstructor
 @Slf4j
-public class ResumeGeneratorHandler implements ResumeGeneratorCommand {
-  private ResumeProvider resumeProvider;
-  private TemplateEngine springTemplateEngine;
+public class ResumeGeneratorHandler implements ResumeGeneratorCommand
+{
+    private ResumeProvider resumeProvider;
+    private TemplateEngine springTemplateEngine;
 
-  @Override
-  public Output execute(ResumeGeneratorInput input) {
-    var resume = resumeProvider.readResume();
+    @Override
+    public Output execute(ResumeGeneratorInput input)
+    {
+        try
+        {
+            var resume = resumeProvider.readResume();
 
-    var ctx = new Context(Locale.US);
-    ctx.setVariable("resume", resume);
+            var ctx = new Context(Locale.US);
+            ctx.setVariable("resume", resume);
+            var outputPath = Path.of("output");
+            var themePath = Path.of("themes", input.getTheme());
+            FileSystemUtils.deleteRecursively(outputPath);
 
-    var htmlContent = this.springTemplateEngine.process(input.getTheme() + "/index.html", ctx);
-    if (input.isGenerateHTML()) {
-      try {
-        var outputPath = Path.of("output");
-        var sourcePath = Path.of("themes", input.getTheme());
-        FileSystemUtils.copyRecursively(outputPath, sourcePath);
-        Files.writeString(
-            Path.of("output", "index.html"),
-            htmlContent,
-            StandardOpenOption.CREATE,
-            StandardOpenOption.TRUNCATE_EXISTING);
-        log.info("Create HTML file");
-      } catch (IOException e) {
-        log.warn("Error occurred: " + e.getMessage(), e);
-      }
+            var htmlString = this.springTemplateEngine.process(input.getTheme() + "/resume.html", ctx);
+            if (input.isGenerateHTML())
+            {
+                FileSystemUtils.copyRecursively(themePath, outputPath);
+                Files.writeString(Path.of("output", "resume.html"), htmlString, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+                log.info("Create HTML file");
+            }
+            if (input.isGeneratePDF())
+            {
+                try (var outputStream = new FileOutputStream(new File("output/resume.pdf")))
+                {
+                    var properties = new ConverterProperties();
+                    properties.setBaseUri(Path.of("themes", input.getTheme()).toAbsolutePath().toString());
+                    HtmlConverter.convertToPdf(htmlString, outputStream, properties);
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage(), e);
+        }
+        return Output.NOTHING;
     }
-    return Output.NOTHING;
-  }
 }
