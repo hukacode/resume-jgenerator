@@ -300,12 +300,12 @@
 					</div>
 					<section class="item clearfix" th:each="reference : *{references}">
 						<i class="fa fa-quote-left pull-left" aria-hidden="true"></i>
-						<blockquote th:text="${reference.name}">It is my
+						<blockquote th:text="${reference.reference}">It is my
 							pleasure to recommend Richard, his performance working as a
 							consultant for Main St. Company proved that he will be a valuable
 							addition to any company.</blockquote>
 
-						<h5 class="pull-right" th:text="${reference.reference}">Erlich
+						<h5 class="pull-right" th:text="${reference.name}">Erlich
 							Bachman</h5>
 					</section>
 				</div>

@@ -44,7 +44,6 @@ public class ResumeJGeneratorApplication implements CommandLineRunner {
         ResumeGeneratorCommand.ResumeGeneratorInput.builder()
             .isGenerateHTML(true)
             .isGeneratePDF(true)
-            .theme("caffeine")
             .build();
     resumeGeneratorCommand.execute(resumeGeneratorInput);
     log.info("Done");

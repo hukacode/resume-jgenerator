@@ -22,12 +22,13 @@
  */
 package dev.huka.resumejgenerator.domain;
 
+import java.time.LocalDate;
 import lombok.Data;
 
 @Data
 public class Award {
   private String title;
-  private String date;
+  private LocalDate date;
   private String awarder;
   private String summary;
 }

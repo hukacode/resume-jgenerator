@@ -22,13 +22,14 @@
  */
 package dev.huka.resumejgenerator.domain;
 
+import java.time.LocalDate;
 import lombok.Data;
 
 @Data
 public class Publication {
   private String name;
   private String publisher;
-  private String releaseDate;
+  private LocalDate releaseDate;
   private String url;
   private String summary;
 }

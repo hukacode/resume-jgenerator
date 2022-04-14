@@ -27,6 +27,7 @@ import lombok.Data;
 
 @Data
 public class Resume {
+  private Meta meta;
   private Basics basics;
   private ArrayList<Work> work;
   private ArrayList<Volunteer> volunteer;

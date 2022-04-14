@@ -22,6 +22,7 @@
  */
 package dev.huka.resumejgenerator.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import lombok.Data;
 
@@ -30,8 +31,8 @@ public class Work {
   private String name;
   private String position;
   private String url;
-  private String startDate;
-  private String endDate;
+  private LocalDate startDate;
+  private LocalDate endDate;
   private String summary;
   private ArrayList<String> highlights;
 }

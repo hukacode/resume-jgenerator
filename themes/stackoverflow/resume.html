@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://themes.jsonresume.org/theme/stackoverflow -->
+<html th:object="${resume}">
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title th:text="*{basics.name}">Richard Hendriks</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="style.css" rel="stylesheet">
+</head>
+<body class="vsc-initialized">
+
+	<div id="resume">
+		<header id="header" class="clear">
+			<div>
+				<h1 th:text="*{basics.name}">Richard Hendriks</h1>
+				<h2 th:text="*{basics.label}">Programmer</h2>
+			</div>
+
+			<span class="location" th:if="*{basics.location != null}"> <span
+				class="address" th:text="*{basics.location.address}">2712
+					Broadway St,</span> <span class="postalCode"
+				th:text="*{basics.location.postalCode}">CA 94115,</span> <span
+				class="city" th:text="*{basics.location.city}">San Francisco,</span>
+				<span class="region" th:text="*{basics.location.region}">California</span>
+				<span class="countryCode" th:text="*{basics.location.countryCode}">US</span>
+			</span>
+
+
+			<div id="contact">
+				<div class="website">
+					<span class="fa fa-external-link"></span> <a target="_blank"
+						href="http://richardhendricks.com" th:href="*{basics.website}"
+						th:text="*{basics.website}">http://richardhendricks.com</a>
+				</div>
+				<div class="email">
+					<span class="fa fa-envelope-o"></span> <a
+						href="mailto:richard@valley.com" th:text="*{basics.email}">richard@valley.com</a>
+				</div>
+				<div class="phone">
+					<span class="fa fa-mobile"></span> <a href="tel:(912) 555-4321"
+						th:text="*{basics.phone}">(912) 555-4321</a>
+				</div>
+			</div>
+
+
+			<div id="profiles" th:if="*{not #lists.isEmpty(basics.profiles)}">
+				<th:block th:each="profile : *{basics.profiles}">
+					<div class="item"
+						th:if="${#strings.equalsIgnoreCase(profile.network, 'twitter')}">
+						<div class="username">
+							<span class="fa fa-twitter twitter social"></span> <span
+								th:text="profile.username">neutralthoughts</span>
+						</div>
+					</div>
+					<div class="item"
+						th:if="${#strings.equalsIgnoreCase(profile.network, 'soundcloud')}">
+						<div class="username">
+							<span class="fa fa-soundcloud soundcloud social"></span> <span
+								class="url"> <a target="_blank"
+								href="https://soundcloud.com/dandymusicnl"
+								th:href="*{profile.url}" th:text="*{profile.username}">dandymusicnl</a>
+							</span>
+						</div>
+					</div>
+				</th:block>
+			</div>
+		</header>
+
+		<section class="section main-summary">
+			<section>
+				<div>
+					<p th:text="*{basics.summary}">Richard hails from Tulsa. He has
+						earned degrees from the University of Oklahoma and Stanford. (Go
+						Sooners and Cardinals!) Before starting Pied Piper, he worked for
+						Hooli as a part time software developer. While his work focuses on
+						applied information theory, mostly optimizing lossless compression
+						schema of both the length-limited and adaptive variants, his
+						non-work interests range widely, everything from quantum computing
+						to chaos theory. He could tell you about it, but THAT would NOT be
+						a “length-limited” conversation!</p>
+				</div>
+			</section>
+		</section>
+
+		<section class="section margin1" th:if="*{not #lists.isEmpty(skills)}">
+			<header>
+				<h2 class="section-title">Skills</h2>
+			</header>
+			<section id="skills">
+				<div class="item" th:each="skill : *{skills}">
+					<h3 class="name" th:text="${skill.name}">Web Development</h3>
+
+					<div class="level master">
+						<em th:text="${skill.level}">Master</em>
+						<div class="bar"></div>
+					</div>
+					<ul class="keywords">
+						<li th:each="keyword : ${skill.keywords}"><h6
+								th:text="${keyword}">HTML</h6></li>
+						<li th:remove="all"><h6>CSS</h6></li>
+						<li th:remove="all"><h6>Javascript</h6></li>
+					</ul>
+				</div>
+				<div class="item" th:remove="all">
+					<h3 class="name">Compression</h3>
+
+					<div class="level master">
+						<em>Master</em>
+						<div class="bar"></div>
+					</div>
+					<ul class="keywords">
+						<li>Mpeg</li>
+						<li>MP4</li>
+						<li>GIF</li>
+					</ul>
+				</div>
+			</section>
+		</section>
+		<section class="section" th:if="*{not #lists.isEmpty(work)}">
+			<header>
+				<h2 class="section-title">
+					Work Experience <span class="item-count"
+						th:text="*{'(' + work.size() + ')'}">(1)</span>
+				</h2>
+			</header>
+
+			<section id="work">
+				<section class="work-item" th:each="workItem : *{work}">
+
+					<input id="work-item-0" type="checkbox" class="toggle-item"
+						checked="checked"> <label for="work-item-0"></label>
+
+					<header>
+						<div class="position" th:text="${workItem.position}">CEO/President</div>
+						<div class="company" th:text="${workItem.name}">Pied Piper</div>
+						<div class="date">
+							<span class="startDate" th:text="${workItem.startDate}">December
+								2013</span> - <span class="endDate" th:text="${workItem.endDate}">December
+								2014</span>
+						</div>
+					</header>
+
+					<span class="website"> <a target="_blank"
+						href="http://piedpiper.com">http://piedpiper.com</a>
+					</span>
+					<div class="item" id="work-item">
+						<div class="summary">
+							<p></p>
+							<p th:text="${workItem.summary}">Pied Piper is a
+								multi-platform technology based on a proprietary universal
+								compression algorithm that has consistently fielded high Weisman
+								Scores™ that are not merely competitive, but approach the
+								theoretical limit of lossless compression.</p>
+							<p></p>
+						</div>
+						<ul class="highlights"
+							th:if="${not #lists.isEmpty(workItem.highlights)}">
+							<li th:each="highlight : ${workItem.highlights}"><p
+									th:text="${highlight}">Build an algorithm for artist to
+									detect if their music was violating copy right infringement
+									laws</p></li>
+							<li th:remove="all"><p>Successfully won Techcrunch
+									Disrupt</p></li>
+							<li th:remove="all"><p>Optimized an algorithm that holds
+									the current world record for Weisman Scores</p></li>
+						</ul>
+					</div>
+				</section>
+			</section>
+		</section>
+		<section class="section" th:if="*{not #lists.isEmpty(volunteer)}">
+			<header>
+				<h2 class="section-title">Volunteer</h2>
+			</header>
+			<section id="volunteer">
+				<section class="volunteer-item"
+					th:each="volunteerItem : *{volunteer}">
+
+					<input id="volunteer-item-0" type="checkbox" class="toggle-item"
+						checked="checked"> <label for="volunteer-item-0"></label>
+
+					<header>
+						<div class="header-left">
+							<div class="position" th:text="${volunteerItem.position}">Teacher</div>
+							<div class="organization" th:text="${volunteerItem.organization}">CoderDojo</div>
+						</div>
+						<div class="date">
+							<span class="startDate" th:text="${volunteerItem.startDate}">
+								January 2012 </span> - <span class="endDate"
+								th:text="${volunteerItem.endDate}"> January 2013 </span>
+						</div>
+					</header>
+					<div class="website">
+						<a target="_blank" href="http://coderdojo.com/"
+							th:href="${volunteerItem.url}" th:text="${volunteerItem.url}">http://coderdojo.com/</a>
+					</div>
+					<div class="item">
+						<div class="summary">
+							<p></p>
+							<p th:text="${volunteerItem.summary}">Global movement of free
+								coding clubs for young people.</p>
+							<p></p>
+						</div>
+						<ul class="highlights"
+							th:if="${not #lists.isEmpty(volunteerItem.highlights)}">
+							<li th:each="highlight : ${volunteerItem.highlights}"><p
+									th:text="${highlight}">Awarded 'Teacher of the Month'</p></li>
+						</ul>
+					</div>
+				</section>
+			</section>
+		</section>
+		<section class="section" th:if="${not #lists.isEmpty(education)}">
+			<header>
+				<h2 class="section-title">
+					Education <span class="item-count">(1)</span>
+				</h2>
+			</header>
+
+			<section id="education">
+				<section class="education-item"
+					th:each="educationItem : *{education}">
+					<header>
+						<div class="header-left">
+							<div class="studyType">Bachelor</div>
+							<div class="area">Information Technology</div>
+							<div class="institution" th:text="${educationItem.institution}">University
+								of Oklahoma</div>
+						</div>
+						<div class="date">
+							<span class="startDate" th:text="${educationItem.startDate}">
+								2011 </span> - <span class="endDate" th:text="${educationItem.endDate}">
+								2014 </span>
+						</div>
+					</header>
+
+
+					<ul class="courses"
+						th:if="${not #lists.isEmpty(educationItem.courses)}">
+						<li th:each="course : ${educationItem.courses}">DB1101 -
+							Basic SQL</li>
+						<span th:text="${course}">Awarded 'Teacher of the Month'</span>
+						</li>
+						<li th:remove="all">CS2011 - Java Introduction</li>
+					</ul>
+
+					<div class="item" th:if="${educationItem.score != null}">
+						<div class="gpa">
+							<strong> Grade:</strong> <span th:text="${educationItem.score}">4.0</span>
+						</div>
+					</div>
+				</section>
+			</section>
+		</section>
+		<section class="section" th:if="*{not #lists.isEmpty(awards)}">
+			<header>
+				<h2 class="section-title">Awards</h2>
+			</header>
+			<section id="awards">
+				<section class="award-item" th:each="award : *{awards}">
+					<input id="award-item-0" type="checkbox" class="toggle-item"
+						checked="checked"> <label for="award-item-0"></label>
+
+					<header>
+						<div class="header-left">
+							<div class="title" th:text="${award.title}">Digital
+								Compression Pioneer Award</div>
+							<div class="awarder" th:text="${award.awarder}">Techcrunch</div>
+						</div>
+						<div class="date" th:text="${award.date}">2014</div>
+					</header>
+
+					<div class="item">
+						<div class="summary">
+							<p></p>
+							<p th:text="${award.summary}">There is no spoon.</p>
+							<p></p>
+						</div>
+					</div>
+				</section>
+			</section>
+		</section>
+		<section class="section" th:if="*{not #lists.isEmpty(publications)}">
+			<header>
+				<h2 class="section-title">Publications</h2>
+			</header>
+			<section id="publications">
+				<section class="publication-item"
+					th:each="publication : *{publications}">
+					<input id="publication-item-0" type="checkbox" class="toggle-item"
+						checked="checked"> <label for="publication-item-0"></label>
+
+					<header>
+						<div class="header-left">
+							<span class="name"> <span class="website"> <a
+									target="_blank"
+									href="http://en.wikipedia.org/wiki/Silicon_Valley_(TV_series)"
+									th:text="${publication.name}" th:href="${publication.url}">Video
+										compression for 3d media</a>
+							</span>
+							</span> <span class="publisher"
+								th:text="${'in ' + publication.publisher}"> in Hooli </span>
+						</div>
+						<span class="date" th:text="${publication.releaseDate}"> 1
+							October 2014 </span>
+					</header>
+
+					<div class="item">
+						<div class="summary">
+							<p></p>
+							<p th:text="${publication.summary}">Innovative middle-out
+								compression algorithm that changes the way we store data.</p>
+							<p></p>
+						</div>
+					</div>
+				</section>
+			</section>
+		</section>
+		<section class="section margin1"
+			th:if="*{not #lists.isEmpty(languages)}">
+			<header>
+				<h2 class="section-title">Languages</h2>
+			</header>
+			<section id="languages">
+				<div class="display" th:each="language : *{languages}">
+					<h3 class="language" th:text="${language.language}">English</h3>
+					<div class="item">
+						<div class="level fluency native speaker">
+							<em th:text="${language.fluency}">Native speaker</em>
+							<div class="bar"></div>
+						</div>
+					</div>
+				</div>
+			</section>
+		</section>
+		<section class="section margin1"
+			th:if="*{not #lists.isEmpty(interests)}">
+			<header>
+				<h2 class="section-title">Interests</h2>
+			</header>
+			<section id="interests" th:each="interest : *{interests}">
+				<div class="item">
+					<h3 class="name" th:text="${interest.name}">Wildlife</h3>
+					<ul class="keywords">
+						<li th:each="keyword : ${interest.keywords}"><span
+							th:text="${keyword}"></span></li>
+						<li th:remove="all">Unicorns</li>
+					</ul>
+				</div>
+			</section>
+		</section>
+		<section class="section" th:if="*{not #lists.isEmpty(references)}">
+			<header>
+				<h2 class="section-title">References</h2>
+			</header>
+			<section id="references">
+				<div class="item" th:each="reference : *{references}">
+					<blockquote class="reference" th:text="${reference.reference}">“
+						It is my pleasure to recommend Richard, his performance working as
+						a consultant for Main St. Company proved that he will be a
+						valuable addition to any company. ”</blockquote>
+					<div class="name" th:text="${reference.name}">Erlich Bachman</div>
+				</div>
+			</section>
+		</section>
+
+
+
+	</div>
+</body>
+</html>

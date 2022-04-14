@@ -22,12 +22,13 @@
  */
 package dev.huka.resumejgenerator.domain;
 
+import java.time.LocalDate;
 import lombok.Data;
 
 @Data
 public class Certificate {
   private String name;
-  private String date;
+  private LocalDate date;
   private String issuer;
   private String url;
 }

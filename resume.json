@@ -1,4 +1,7 @@
 {
+	"meta": {
+		"theme": "simple"
+	},
 	"basics": {
 		"name": "Richard Hendriks",
 		"label": "Programmer",

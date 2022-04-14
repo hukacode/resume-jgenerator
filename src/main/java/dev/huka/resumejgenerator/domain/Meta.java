@@ -22,20 +22,9 @@
  */
 package dev.huka.resumejgenerator.domain;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import lombok.Data;
 
 @Data
-public class Project {
-  private String name;
-  private String description;
-  private ArrayList<String> highlights;
-  private ArrayList<String> keywords;
-  private LocalDate startDate;
-  private LocalDate endDate;
-  private String url;
-  private ArrayList<String> roles;
-  private String entity;
-  private String type;
+public class Meta {
+  private String theme;
 }
